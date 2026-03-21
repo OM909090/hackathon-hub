@@ -3,8 +3,8 @@ import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 // YouTube-style shimmer skeleton box
-export const SkeletonBox = ({ className = "" }: { className?: string }) => (
-  <div className={`relative overflow-hidden rounded-lg bg-muted ${className}`}>
+export const SkeletonBox = ({ className = "", style }: { className?: string; style?: React.CSSProperties }) => (
+  <div className={`relative overflow-hidden rounded-lg bg-muted ${className}`} style={style}>
     <div className="absolute inset-0 skeleton-shimmer" />
   </div>
 );
