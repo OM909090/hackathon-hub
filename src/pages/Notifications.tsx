@@ -1,5 +1,6 @@
 import { DashboardLayout } from "@/components/DashboardSidebar";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ScrollReveal";
+import { PageLoader, SkeletonBox, SkeletonLine } from "@/components/PageLoader";
 import { Bell, CheckCircle2, AlertCircle, Info, Clock } from "lucide-react";
 
 type NotificationType = "success" | "warning" | "info";
@@ -19,47 +20,73 @@ const typeConfig = {
   info: { icon: Info, bg: "bg-info/10", text: "text-info" },
 };
 
+const NotificationsSkeleton = () => (
+  <div className="max-w-3xl mx-auto">
+    <div className="flex items-center justify-between mb-8">
+      <div>
+        <SkeletonBox className="h-8 w-40 mb-2" />
+        <SkeletonLine width="220px" />
+      </div>
+      <SkeletonBox className="h-5 w-28" />
+    </div>
+    <div className="space-y-3">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div key={i} className="card-elevated rounded-xl p-4 flex gap-4">
+          <SkeletonBox className="w-10 h-10 rounded-lg shrink-0" />
+          <div className="flex-1">
+            <SkeletonBox className="h-4 w-36 mb-2" />
+            <SkeletonLine width="80%" className="mb-2" />
+            <SkeletonBox className="h-3 w-20" />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
 const Notifications = () => {
   return (
     <DashboardLayout>
-      <div className="max-w-3xl mx-auto">
-        <ScrollReveal>
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Notifications</h1>
-              <p className="text-muted-foreground text-sm mt-1">Stay updated on your hackathon journey</p>
+      <PageLoader skeleton={<NotificationsSkeleton />}>
+        <div className="max-w-3xl mx-auto">
+          <ScrollReveal>
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Notifications</h1>
+                <p className="text-muted-foreground text-sm mt-1">Stay updated on your hackathon journey</p>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-accent font-medium cursor-pointer hover:underline">
+                <Bell className="w-4 h-4" /> Mark all read
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-sm text-accent font-medium cursor-pointer hover:underline">
-              <Bell className="w-4 h-4" /> Mark all read
-            </div>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
 
-        <StaggerContainer className="space-y-3">
-          {notifications.map((n, i) => {
-            const config = typeConfig[n.type];
-            return (
-              <StaggerItem key={i}>
-                <div className={`card-elevated rounded-xl p-4 flex gap-4 transition-all ${!n.read ? "border-l-2 border-l-accent" : "opacity-70"}`}>
-                  <div className={`w-10 h-10 rounded-lg ${config.bg} flex items-center justify-center shrink-0`}>
-                    <config.icon className={`w-5 h-5 ${config.text}`} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="font-medium text-sm">{n.title}</div>
-                      {!n.read && <div className="w-2 h-2 rounded-full bg-accent shrink-0 mt-1.5" />}
+          <StaggerContainer className="space-y-3">
+            {notifications.map((n, i) => {
+              const config = typeConfig[n.type];
+              return (
+                <StaggerItem key={i}>
+                  <div className={`card-elevated rounded-xl p-4 flex gap-4 transition-all ${!n.read ? "border-l-2 border-l-accent" : "opacity-70"}`}>
+                    <div className={`w-10 h-10 rounded-lg ${config.bg} flex items-center justify-center shrink-0`}>
+                      <config.icon className={`w-5 h-5 ${config.text}`} />
                     </div>
-                    <p className="text-sm text-muted-foreground mt-0.5">{n.message}</p>
-                    <span className="text-xs text-muted-foreground mt-2 flex items-center gap-1 mono">
-                      <Clock className="w-3 h-3" />{n.time}
-                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="font-medium text-sm">{n.title}</div>
+                        {!n.read && <div className="w-2 h-2 rounded-full bg-accent shrink-0 mt-1.5" />}
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-0.5">{n.message}</p>
+                      <span className="text-xs text-muted-foreground mt-2 flex items-center gap-1 mono">
+                        <Clock className="w-3 h-3" />{n.time}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </StaggerItem>
-            );
-          })}
-        </StaggerContainer>
-      </div>
+                </StaggerItem>
+              );
+            })}
+          </StaggerContainer>
+        </div>
+      </PageLoader>
     </DashboardLayout>
   );
 };
