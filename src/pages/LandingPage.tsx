@@ -33,7 +33,6 @@ const timeline = [
 
 const LandingSkeleton = () => (
   <div className="min-h-screen bg-background">
-    {/* Navbar skeleton */}
     <div className="h-16 border-b border-border/50 flex items-center justify-between px-6 max-w-7xl mx-auto">
       <div className="flex items-center gap-2.5">
         <SkeletonBox className="w-8 h-8 rounded-lg" />
@@ -44,7 +43,6 @@ const LandingSkeleton = () => (
         <SkeletonBox className="h-8 w-28 rounded-md" />
       </div>
     </div>
-    {/* Hero skeleton */}
     <div className="max-w-7xl mx-auto px-6 pt-32 pb-24">
       <div className="max-w-3xl">
         <SkeletonBox className="h-6 w-56 rounded-full mb-8" />
@@ -56,29 +54,6 @@ const LandingSkeleton = () => (
           <SkeletonBox className="h-12 w-44 rounded-lg" />
           <SkeletonBox className="h-12 w-40 rounded-lg" />
         </div>
-      </div>
-      <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i}>
-            <SkeletonBox className="h-10 w-24 mb-1" />
-            <SkeletonLine width="60%" />
-          </div>
-        ))}
-      </div>
-    </div>
-    {/* Features skeleton */}
-    <div className="max-w-7xl mx-auto px-6 py-24">
-      <SkeletonBox className="h-4 w-32 mb-3" />
-      <SkeletonBox className="h-12 w-96 mb-16" />
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div key={i} className="glass-card rounded-xl p-6">
-            <SkeletonBox className="w-10 h-10 rounded-lg mb-4" />
-            <SkeletonBox className="h-5 w-32 mb-2" />
-            <SkeletonLine width="90%" className="mb-1" />
-            <SkeletonLine width="70%" />
-          </div>
-        ))}
       </div>
     </div>
   </div>
@@ -113,30 +88,32 @@ const LandingPage = () => {
           </div>
         </nav>
 
-        {/* Hero */}
+        {/* Hero with 3D Video Background */}
         <section className="relative min-h-screen flex items-center hero-gradient overflow-hidden">
-          <div className="absolute inset-0 grid-pattern opacity-[0.03]" />
-          <motion.div
-            className="absolute top-1/4 right-1/4 w-72 h-72 rounded-full opacity-20"
-            style={{ background: "radial-gradient(circle, hsl(var(--accent-warm)), transparent)" }}
-            animate={{ y: [-12, 12, -12], scale: [1, 1.05, 1] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute bottom-1/3 left-1/6 w-48 h-48 rounded-full opacity-10"
-            style={{ background: "radial-gradient(circle, hsl(var(--info)), transparent)" }}
-            animate={{ y: [8, -8, 8] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          />
+          {/* Video Background */}
+          <div className="absolute inset-0 z-0">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover opacity-40"
+            >
+              <source src="/videos/hero-3d.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 hero-gradient opacity-70" />
+          </div>
 
-          <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-24">
+          <div className="absolute inset-0 grid-pattern opacity-[0.03] z-[1]" />
+
+          <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-24">
             <div className="max-w-3xl">
               <motion.div
                 initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 mb-8">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 backdrop-blur-sm mb-8">
                   <Sparkles className="w-3.5 h-3.5 text-accent" />
                   <span className="text-xs font-medium text-accent mono">v2.0 — Project-Based Evaluation</span>
                 </div>
