@@ -68,9 +68,10 @@ const LandingSkeleton = () => (
   </div>
 );
 
-const FloatingOrb = ({ className, delay = 0, duration = 6 }: { className: string; delay?: number; duration?: number }) => (
+const FloatingOrb = ({ className, style, delay = 0, duration = 6 }: { className: string; style?: React.CSSProperties; delay?: number; duration?: number }) => (
   <motion.div
     className={`absolute rounded-full blur-3xl opacity-20 ${className}`}
+    style={style}
     animate={{ y: [-15, 15, -15], x: [-8, 8, -8], scale: [1, 1.08, 1] }}
     transition={{ duration, repeat: Infinity, ease: "easeInOut", delay }}
   />
