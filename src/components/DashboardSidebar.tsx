@@ -1,44 +1,28 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { NotificationBar } from "@/components/NotificationBar";
 import {
-  LayoutDashboard, Users, FolderUp, ClipboardCheck,
-  Calendar, Bell, Shield, ChevronLeft, Menu,
-  Home, Trophy, Hash, Settings, Search, Plus,
-  Inbox, Star, Filter, CheckCircle2
+  LayoutDashboard, Users, FolderUp, FileText,
+  Trophy, Shield, ChevronLeft, Menu,
+  Home, Settings, Search, UserCheck
 } from "lucide-react";
 import { useState } from "react";
 
-const mainNav = [
-  { label: "Inbox", icon: Inbox, path: "/dashboard" },
-  { label: "Today", icon: Calendar, path: "/schedule" },
-  { label: "Upcoming", icon: Star, path: "/notifications" },
-];
-
 const platformNav = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
-  { label: "Registration", icon: Users, path: "/register" },
-  { label: "Submissions", icon: FolderUp, path: "/submissions" },
-  { label: "Evaluation", icon: ClipboardCheck, path: "/evaluation" },
-  { label: "Schedule", icon: Calendar, path: "/schedule" },
-  { label: "Notifications", icon: Bell, path: "/notifications" },
-  { label: "Admin", icon: Shield, path: "/admin" },
-];
-
-const favoriteItems = [
-  { label: "Home", icon: Hash, path: "/dashboard" },
-  { label: "Problem Statements", icon: Hash, path: "/evaluation" },
-];
-
-const projectItems = [
-  { label: "My Team", icon: Hash, path: "/register" },
-  { label: "Submissions", icon: Hash, path: "/submissions" },
+  { label: "Profile Verification", icon: UserCheck, path: "/profile-verification" },
+  { label: "Team", icon: Users, path: "/team" },
+  { label: "Problem Statements", icon: FileText, path: "/problem-statements" },
+  { label: "Submission", icon: FolderUp, path: "/submissions" },
+  { label: "Selection Status", icon: Trophy, path: "/selection-status" },
+  { label: "Admin Panel", icon: Shield, path: "/admin" },
 ];
 
 export const DashboardSidebar = () => {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
 
-  const NavItem = ({ item, showBullet = false }: { item: { label: string; icon: React.ElementType; path: string }; showBullet?: boolean }) => {
+  const NavItem = ({ item }: { item: { label: string; icon: React.ElementType; path: string } }) => {
     const isActive = location.pathname === item.path;
     return (
       <li>
@@ -51,13 +35,7 @@ export const DashboardSidebar = () => {
               : "text-sidebar-foreground hover:bg-muted/60"
           )}
         >
-          {showBullet ? (
-            <span className="w-4 h-4 flex items-center justify-center">
-              <item.icon className="w-3.5 h-3.5 shrink-0 opacity-60" />
-            </span>
-          ) : (
-            <item.icon className="w-4 h-4 shrink-0" />
-          )}
+          <item.icon className="w-4 h-4 shrink-0" />
           {!collapsed && <span>{item.label}</span>}
         </Link>
       </li>
@@ -110,59 +88,26 @@ export const DashboardSidebar = () => {
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto px-2">
-          {/* Platform */}
           <ul className="space-y-0.5">
             {platformNav.map((item) => (
-              <NavItem key={item.path + item.label} item={item} />
+              <NavItem key={item.path} item={item} />
             ))}
           </ul>
-
-          {/* Favorites */}
-          {!collapsed && (
-            <>
-              <div className="mt-5 mb-1 px-3 flex items-center justify-between">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-                  Favorites
-                </span>
-              </div>
-              <ul className="space-y-0.5">
-                {favoriteItems.map((item) => (
-                  <NavItem key={item.label} item={item} showBullet />
-                ))}
-              </ul>
-            </>
-          )}
-
-          {/* My Projects */}
-          {!collapsed && (
-            <>
-              <div className="mt-5 mb-1 px-3 flex items-center justify-between">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">
-                  My Projects
-                </span>
-                <button className="p-0.5 rounded hover:bg-muted/60 transition-colors">
-                  <Plus className="w-3 h-3 text-muted-foreground" />
-                </button>
-              </div>
-              <ul className="space-y-0.5">
-                {projectItems.map((item) => (
-                  <NavItem key={item.label} item={item} showBullet />
-                ))}
-              </ul>
-            </>
-          )}
         </nav>
 
-        {/* Footer */}
+        {/* Footer with Notification */}
         {!collapsed && (
           <div className="px-2 py-3 border-t border-sidebar-border">
-            <Link
-              to="/dashboard"
-              className="flex items-center gap-3 px-3 py-1.5 rounded-md text-[13px] text-sidebar-foreground hover:bg-muted/60 transition-colors"
-            >
-              <Settings className="w-4 h-4" />
-              <span>Settings</span>
-            </Link>
+            <div className="flex items-center justify-between px-3">
+              <Link
+                to="/dashboard"
+                className="flex items-center gap-3 py-1.5 text-[13px] text-sidebar-foreground hover:text-foreground transition-colors"
+              >
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
+              </Link>
+              <NotificationBar />
+            </div>
           </div>
         )}
       </aside>

@@ -3,13 +3,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { HackathonProvider } from "@/contexts/HackathonContext";
 import LandingPage from "./pages/LandingPage";
+import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
-import Registration from "./pages/Registration";
+import ProfileVerification from "./pages/ProfileVerification";
+import Team from "./pages/Team";
+import ProblemStatements from "./pages/ProblemStatements";
 import Submissions from "./pages/Submissions";
-import Evaluation from "./pages/Evaluation";
-import Schedule from "./pages/Schedule";
-import Notifications from "./pages/Notifications";
+import SelectionStatus from "./pages/SelectionStatus";
 import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
@@ -18,21 +20,24 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/register" element={<Registration />} />
-          <Route path="/submissions" element={<Submissions />} />
-          <Route path="/evaluation" element={<Evaluation />} />
-          <Route path="/schedule" element={<Schedule />} />
-          <Route path="/notifications" element={<Notifications />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <HackathonProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile-verification" element={<ProfileVerification />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/problem-statements" element={<ProblemStatements />} />
+            <Route path="/submissions" element={<Submissions />} />
+            <Route path="/selection-status" element={<SelectionStatus />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </HackathonProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
