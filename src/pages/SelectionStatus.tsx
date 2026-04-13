@@ -26,8 +26,7 @@ const SelectionStatus = () => {
 
   // Mock data — in real app this comes from backend
   const teamName = "CodeCrafters";
-  const result: SelectionResult = resultsOut ? "selected" : "pending";
-  // Note: "not_selected" would be set from backend when results show rejection
+  const result = (resultsOut ? "selected" : "pending") as SelectionResult;
   const teamMembers = ["Rahul Kumar", "Priya Sharma", "Arjun Patel"];
 
   return (
